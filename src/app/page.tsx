@@ -3,7 +3,7 @@ import LandingPageForm from "@/components/LandingPageForm";
 export default function LandingPage() {
   return (
     <div className="h-full w-full flex flex-col bg-indigo-700">
-      <header className="w-full h-16 flex items-center justify-between text-white bg-gray-900">
+      <header className="w-full h-16 flex items-center justify-between text-white bg-gray-900 rounded-b-2xl shadow-2xl shadow-gray-900">
         <h1 className="text-3xl ml-5">FinanceFlow</h1>
         <nav className="mr-5">
           <ul className="flex gap-5">
