@@ -1,15 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const urlParams = useSearchParams();
+  const successMessage = urlParams.get("success");
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
     const email = urlParams.get("email");
     if (email) {
       setEmail(email);
@@ -30,6 +32,7 @@ export default function Register() {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    toast.dismiss();
 
     const res = await fetch("/api/login", {
       method: "POST",
@@ -42,9 +45,9 @@ export default function Register() {
 
     const data = await res.json();
     if (res.ok) {
-      alert("Login realizado com sucesso!");
+      router.push("/dashboard");
     } else {
-      alert(data.error);
+      toast.error(data.error);
     }
   };
 
@@ -54,7 +57,12 @@ export default function Register() {
         className="flex flex-col w-1/3 h-fit bg-white items-center justify-center rounded-4xl gap-2"
         onSubmit={handleLogin}
       >
-        <h1 className="text-3xl mt-5">Login</h1>
+        {successMessage === "registered" && (
+          <p className="bg-green-500 text-white mt-5 p-1 rounded-md">
+            Cadastro realizado com sucesso! Faça login.
+          </p>
+        )}
+        <h1 className="text-3xl mt-2">Login</h1>
         <div className="flex flex-col w-3/4">
           <label htmlFor="email" className="text-lg">
             Email
@@ -93,6 +101,7 @@ export default function Register() {
           Não tem uma conta?
         </p>
       </form>
+      <ToastContainer limit={1} />
     </div>
   );
 }

@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
+import { InputMask } from "@react-input/mask";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -41,20 +43,37 @@ export default function Register() {
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    toast.dismiss();
+
+    if (!name || !email || !phoneNumber || !password) {
+      toast.warn("Todos os campos obrigatórios devem ser preenchidos.");
+      return;
+    }
+
+    if (phoneNumber.replace(/\D/g, "").length !== 11) {
+      toast.warn("Digite um telefone válido.");
+      return;
+    }
+
+    if (password.length < 8) {
+      toast.warn("A senha deve conter pelo menos 8 caracteres.");
+      return;
+    }
+
     const res = await fetch("/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         userName: name,
         userEmail: email,
-        userPhone: phoneNumber,
+        userPhone: phoneNumber.replace(/\D/g, ""),
         userPassword: password,
       }),
     });
 
     const data = await res.json();
     if (res.ok) {
-      alert("Cadastro realizado com sucesso!");
+      router.push("/login?success=registered");
     } else {
       alert(data.error);
     }
@@ -72,7 +91,7 @@ export default function Register() {
             Nome
           </label>
           <input
-            type="tel"
+            type="text"
             name="name"
             className="bg-gray-200 rounded-lg text-lg p-2 placeholder:text-gray-500"
             placeholder="Coloque seu nome..."
@@ -97,7 +116,10 @@ export default function Register() {
           <label htmlFor="phoneNumber" className="text-lg">
             Número de telefone
           </label>
-          <input
+
+          <InputMask
+            mask="(__) _____-____"
+            replacement={{ _: /\d/ }}
             type="tel"
             name="phoneNumber"
             className="bg-gray-200 rounded-lg text-lg p-2 placeholder:text-gray-500"
@@ -134,6 +156,7 @@ export default function Register() {
           Já tem uma conta?
         </p>
       </form>
+      <ToastContainer closeOnClick limit={1} />
     </div>
   );
 }

@@ -10,14 +10,17 @@
   },
   "dependencies": {
     "@prisma/client": "^6.5.0",
+    "@react-input/mask": "^2.0.4",
     "bcrypt": "^5.1.1",
     "cookies-next": "^5.1.0",
     "dotenv": "^16.4.7",
+    "jose": "^6.0.10",
     "jsonwebtoken": "^9.0.2",
     "next": "15.2.3",
     "prisma": "^6.5.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-toastify": "^11.0.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

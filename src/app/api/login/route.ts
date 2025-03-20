@@ -3,13 +3,14 @@ import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { setCookie } from "cookies-next";
+import { cookies } from "next/headers";
 dotenv.config();
 
 const SECRET_KEY = process.env.JWT_SECRET;
 
 export async function POST(req: Request) {
   try {
+    const cookieStore = await cookies();
     const { userEmail, userPassword } = await req.json();
 
     if (!userEmail || !userPassword) {
@@ -25,7 +26,7 @@ export async function POST(req: Request) {
 
     if (!foundUser) {
       return NextResponse.json(
-        { error: "Erro ao encontrar usuário." },
+        { error: "Email ou senha incorretos." },
         { status: 400 }
       );
     }
@@ -36,7 +37,7 @@ export async function POST(req: Request) {
 
     if (!passwordIsTheSame) {
       return NextResponse.json(
-        { error: "Erro ao encontrar usuário." },
+        { error: "Email ou senha incorretos." },
         { status: 400 }
       );
     }
@@ -50,7 +51,7 @@ export async function POST(req: Request) {
       SECRET_KEY,
       { expiresIn: "1h" }
     );
-    setCookie("token", token, {
+    cookieStore.set("token", token, {
       maxAge: 60 * 60 * 1,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",

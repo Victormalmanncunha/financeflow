@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
 const SECRET_KEY = process.env.JWT_SECRET;
@@ -17,12 +17,20 @@ export async function middleware(req: NextRequest) {
       throw new Error("SECRET_KEY não definida no arquivo .env");
     }
 
-    const decoded = jwt.verify(token, SECRET_KEY);
+    const { payload } = await jwtVerify(
+      token,
+      new TextEncoder().encode(SECRET_KEY)
+    );
 
-    (req as any).user = decoded;
+    (req as any).user = payload;
 
     return NextResponse.next();
   } catch (error) {
+    console.log(error);
     return NextResponse.redirect(new URL("/login", req.url));
   }
 }
+
+export const config = {
+  matcher: ["/dashboard/:path*"],
+};

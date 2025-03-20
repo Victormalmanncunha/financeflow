@@ -32,7 +32,7 @@ export default function LandingPageForm() {
       <input
         type="text"
         placeholder="Email"
-        className="w-10/12 bg-gray-200 rounded-lg mb-5 text-2xl p-1 placeholder:text-gray-500"
+        className="w-10/12 bg-gray-200 rounded-lg mb-5 text-2xl p-2 placeholder:text-gray-500"
         value={email}
         onChange={handleEmailChange}
       />
