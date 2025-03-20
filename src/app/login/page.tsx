@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Register() {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
@@ -18,43 +16,33 @@ export default function Register() {
     }
   }, []);
 
-  const handleNavigateToLogin = () => {
-    router.push("/login");
-  };
-
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+  const handleNavigateToRegister = () => {
+    router.push("/register");
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoneNumber(e.target.value);
-  };
-
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const res = await fetch("/api/register", {
+    const res = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        userName: name,
         userEmail: email,
-        userPhone: phoneNumber,
         userPassword: password,
       }),
     });
 
     const data = await res.json();
     if (res.ok) {
-      alert("Cadastro realizado com sucesso!");
+      alert("Login realizado com sucesso!");
     } else {
       alert(data.error);
     }
@@ -63,23 +51,10 @@ export default function Register() {
   return (
     <div className="h-full w-full flex justify-center items-center bg-indigo-700">
       <form
-        className="flex flex-col w-1/3 h-[32rem] bg-white items-center justify-center rounded-4xl gap-2"
-        onSubmit={handleRegister}
+        className="flex flex-col w-1/3 h-fit bg-white items-center justify-center rounded-4xl gap-2"
+        onSubmit={handleLogin}
       >
-        <h1 className="text-3xl">Cadastro</h1>
-        <div className="flex flex-col w-3/4">
-          <label htmlFor="name" className="text-lg">
-            Nome
-          </label>
-          <input
-            type="tel"
-            name="name"
-            className="bg-gray-200 rounded-lg text-lg p-2 placeholder:text-gray-500"
-            placeholder="Coloque seu nome..."
-            value={name}
-            onChange={handleNameChange}
-          />
-        </div>
+        <h1 className="text-3xl mt-5">Login</h1>
         <div className="flex flex-col w-3/4">
           <label htmlFor="email" className="text-lg">
             Email
@@ -94,25 +69,9 @@ export default function Register() {
           />
         </div>
         <div className="flex flex-col w-3/4">
-          <label htmlFor="phoneNumber" className="text-lg">
-            Número de telefone
-          </label>
-          <input
-            type="tel"
-            name="phoneNumber"
-            className="bg-gray-200 rounded-lg text-lg p-2 placeholder:text-gray-500"
-            placeholder="Coloque seu telefone..."
-            value={phoneNumber}
-            onChange={handlePhoneChange}
-          />
-        </div>
-        <div className="flex flex-col w-3/4">
           <label htmlFor="password" className="text-lg">
             Senha
           </label>
-          <small className="text-gray-400">
-            Deve conter 8 ou mais caracteres
-          </small>
           <input
             type="password"
             className="bg-gray-200 rounded-lg text-lg p-2 placeholder:text-gray-500"
@@ -125,13 +84,13 @@ export default function Register() {
           type="submit"
           className="w-3/4 bg-gray-900 p-2 text-white text-2xl rounded-2xl cursor-pointer mt-5"
         >
-          Cadastrar
+          Entrar
         </button>
         <p
           className="mb-5 text-gray-500 cursor-pointer"
-          onClick={handleNavigateToLogin}
+          onClick={handleNavigateToRegister}
         >
-          Já tem uma conta?
+          Não tem uma conta?
         </p>
       </form>
     </div>
