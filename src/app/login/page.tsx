@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
 export default function Register() {
@@ -10,13 +10,6 @@ export default function Register() {
   const router = useRouter();
   const urlParams = useSearchParams();
   const successMessage = urlParams.get("success");
-
-  useEffect(() => {
-    const email = urlParams.get("email");
-    if (email) {
-      setEmail(email);
-    }
-  }, []);
 
   const handleNavigateToRegister = () => {
     router.push("/register");
