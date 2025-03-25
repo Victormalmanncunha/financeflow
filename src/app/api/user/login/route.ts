@@ -46,11 +46,9 @@ export async function POST(req: Request) {
       throw new Error("SECRET_KEY não definida no arquivo .env");
     }
 
-    const token = jwt.sign(
-      { userId: foundUser.userId, userEmail: foundUser.userEmail },
-      SECRET_KEY,
-      { expiresIn: "1h" }
-    );
+    const token = jwt.sign({ userId: foundUser.userId }, SECRET_KEY, {
+      expiresIn: "1h",
+    });
     cookieStore.set("token", token, {
       maxAge: 60 * 60 * 1,
       httpOnly: true,

@@ -1,15 +1,14 @@
 import { Banknote } from "lucide-react";
-import React from "react";
+import CurrentBalance from "./components/CurrentBalance";
+import Transaction from "./components/Transaction";
 
-export default async function Dashboard() {
-  const response = await fetch("http://localhost:3000/api/user/balance", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json", // Se precisar enviar algum cabeçalho
-    },
-    credentials: "same-origin", // Isso garante que os cookies sejam enviados
-  });
+const transactions = [
+  { id: 1, type: "income", amount: 250, description: "Freelance" },
+  { id: 2, type: "expense", amount: 120, description: "Supermercado" },
+  { id: 3, type: "income", amount: 500, description: "Salário" },
+];
 
+export default function Dashboard() {
   return (
     <div className="h-screen w-full flex bg-indigo-700">
       <aside className="h-full w-16 bg-white flex flex-col items-center py-4 shadow-lg">
@@ -19,12 +18,19 @@ export default async function Dashboard() {
         />
       </aside>
 
-      <main className="flex-1 flex flex-col items-center p-6">
-        <h1 className="text-3xl text-white font-bold mb-6">Olá </h1>
+      <main className="flex-1 flex flex-col items-center p-6 gap-6">
+        <h1 className="text-3xl text-white font-bold">Olá</h1>
+
+        <CurrentBalance />
 
         <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-sm flex flex-col items-center">
-          <p className="text-xl font-semibold">Saldo atual</p>
-          <p className="text-2xl font-bold text-green-600"></p>
+          <h2 className="text-xl font-semibold mb-4">Últimas Transações</h2>
+
+          <ul className="w-full space-y-2">
+            {transactions.map((transaction) => (
+              <Transaction {...transaction} key={transaction.id} />
+            ))}
+          </ul>
         </div>
       </main>
     </div>
