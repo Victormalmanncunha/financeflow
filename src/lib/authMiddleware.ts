@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
+import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 
 const SECRET_KEY = process.env.JWT_SECRET;
 
 export async function checkAuth(req: NextRequest) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const token = await getCookie("token", { cookies });
 
   if (!token) {
     return NextResponse.redirect(new URL("/login", req.url));
