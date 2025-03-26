@@ -22,19 +22,19 @@ export default function CurrentBalance() {
   }, []);
 
   useEffect(() => {
-    const duration = 2000; // 1 segundo
+    const duration = 2000;
     const startTime = performance.now();
 
     function easeOutQuad(t: number) {
-      return t * (2 - t); // Faz desacelerar no final
+      return t * (2 - t);
     }
 
     function updateBalance(currentTime: number) {
       const elapsedTime = currentTime - startTime;
       const progress = Math.min(elapsedTime / duration, 1); // De 0 a 1
-      const easedProgress = easeOutQuad(progress); // Aplica a suavização
+      const easedProgress = easeOutQuad(progress);
 
-      const animatedValue = Math.floor(easedProgress * userBalance);
+      const animatedValue = easedProgress * userBalance;
 
       setDisplayBalance(animatedValue);
 
