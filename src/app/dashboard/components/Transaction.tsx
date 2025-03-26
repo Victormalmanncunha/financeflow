@@ -13,13 +13,9 @@ type TransactionProps = {
 
 export default function Transaction({
   id,
-  userId,
   amount,
   type,
   category,
-  description,
-  createdAt,
-  updatedAt,
 }: TransactionProps) {
   return (
     <li
@@ -32,7 +28,7 @@ export default function Transaction({
         ) : (
           <ArrowDown className="text-red-500" size={20} />
         )}
-        {description}
+        {category}
       </span>
       <span
         className={`font-semibold ${
@@ -40,7 +36,7 @@ export default function Transaction({
         }`}
       >
         {type === "INCOME" ? "+" : "-"} R$
-        {amount.toFixed(2)}
+        {Number(amount).toFixed(2)}
       </span>
     </li>
   );

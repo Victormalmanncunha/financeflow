@@ -6,8 +6,6 @@ export async function POST(req: Request) {
   try {
     const { userName, userEmail, userPhone, userPassword } = await req.json();
 
-    console.log(userName, userEmail, userPhone, userPassword);
-
     if (!userName || !userEmail || !userPhone || !userPassword) {
       return NextResponse.json(
         { error: "Todos os campos são obrigatórios" },

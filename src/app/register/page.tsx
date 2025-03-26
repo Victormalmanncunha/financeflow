@@ -60,7 +60,7 @@ export default function Register() {
       return;
     }
 
-    const res = await fetch("/api/user/register", {
+    const res = await fetch("/api/users/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -93,6 +93,7 @@ export default function Register() {
           <input
             type="text"
             name="name"
+            id="name"
             className="bg-gray-200 rounded-lg text-lg p-2 placeholder:text-gray-500"
             placeholder="Coloque seu nome..."
             value={name}
@@ -106,6 +107,7 @@ export default function Register() {
           <input
             type="email"
             name="email"
+            id="email"
             className="bg-gray-200 rounded-lg text-lg p-2 placeholder:text-gray-500"
             placeholder="Coloque seu email..."
             value={email}
@@ -122,6 +124,7 @@ export default function Register() {
             replacement={{ _: /\d/ }}
             type="tel"
             name="phoneNumber"
+            id="phoneNumber"
             className="bg-gray-200 rounded-lg text-lg p-2 placeholder:text-gray-500"
             placeholder="Coloque seu telefone..."
             value={phoneNumber}
@@ -137,6 +140,8 @@ export default function Register() {
           </small>
           <input
             type="password"
+            name="password"
+            id="password"
             className="bg-gray-200 rounded-lg text-lg p-2 placeholder:text-gray-500"
             value={password}
             onChange={handlePasswordChange}

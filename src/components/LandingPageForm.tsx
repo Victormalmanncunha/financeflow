@@ -28,6 +28,7 @@ export default function LandingPageForm() {
     <form
       className="flex flex-col w-1/4 h-50 bg-white items-center justify-center rounded-4xl"
       onSubmit={handleRegister}
+      data-testid="landing-page-form"
     >
       <input
         type="text"

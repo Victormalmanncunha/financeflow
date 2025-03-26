@@ -8,7 +8,7 @@ export default function UserGreeting() {
 
   useEffect(() => {
     async function pegarNome() {
-      const response = await fetch("/api/user/name");
+      const response = await fetch("/api/me/name");
       const data = await response.json();
       setUserName(data.name);
     }
@@ -22,7 +22,7 @@ export default function UserGreeting() {
           className="text-3xl text-white font-bold"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 1, ease: "easeOut" }}
         >
           {`Olá ${userName.split(" ")[0]}!`}
         </motion.h1>

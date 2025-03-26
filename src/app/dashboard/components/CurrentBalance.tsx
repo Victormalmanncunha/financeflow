@@ -7,7 +7,7 @@ export default function CurrentBalance() {
   const [displayBalance, setDisplayBalance] = useState(0);
   async function getBalance() {
     try {
-      const response = await fetch("http://localhost:3000/api/user/balance", {
+      const response = await fetch("http://localhost:3000/api/me/balance", {
         method: "GET",
       });
       const data = await response.json();
@@ -22,7 +22,7 @@ export default function CurrentBalance() {
   }, []);
 
   useEffect(() => {
-    const duration = 2000;
+    const duration = 1000;
     const startTime = performance.now();
 
     function easeOutQuad(t: number) {
