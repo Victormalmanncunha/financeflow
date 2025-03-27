@@ -18,7 +18,7 @@ export default function LandingPageForm() {
   const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (email.trim()) {
-      router.push(`/register?email=${encodeURI(email)}`);
+      router.push(`/register?email=${encodeURIComponent(email)}`);
     } else {
       router.push(`/register`);
     }

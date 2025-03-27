@@ -13,6 +13,7 @@ const createJestConfig = nextJest({
 const config: Config = {
   coverageProvider: "v8",
   testEnvironment: "jsdom",
+
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -29,7 +30,12 @@ const config: Config = {
   collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  // collectCoverageFrom: undefined,
+  collectCoverageFrom: [
+    "src/**/*.{js,jsx,ts,tsx}", // Inclui todos os arquivos de código dentro de src
+    "!src/**/*.test.{js,jsx,ts,tsx}", // Exclui arquivos de teste
+    "!src/**/index.{js,jsx,ts,tsx}", // Exclui arquivos de índice
+    "!src/**/types.ts", // Exclui arquivos de tipos
+  ],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: "coverage",
@@ -43,12 +49,7 @@ const config: Config = {
   // coverageProvider: "babel",
 
   // A list of reporter names that Jest uses when writing coverage reports
-  // coverageReporters: [
-  //   "json",
-  //   "text",
-  //   "lcov",
-  //   "clover"
-  // ],
+  coverageReporters: ["json", "text", "lcov", "clover"],
 
   // An object that configures minimum threshold enforcement for coverage results
   // coverageThreshold: undefined,

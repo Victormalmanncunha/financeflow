@@ -1,0 +1,39 @@
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import Login from "./page";
+import "@testing-library/jest-dom";
+const mockPush = jest.fn();
+const mockGet = jest.fn();
+
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: mockPush,
+  }),
+  useSearchParams: () => ({
+    get: mockGet,
+  }),
+}));
+
+describe("Testes da página de login", () => {
+  beforeEach(() => {
+    render(<Login />);
+  });
+
+  it("Deve exibir o titúlo 'Login'", () => {
+    expect(screen.getByText(/Login/i)).toBeInTheDocument();
+  });
+
+  it("Deve exibir os campos do formulário", () => {
+    expect(screen.getByLabelText("Email")).toBeInTheDocument();
+    expect(screen.getByLabelText("Senha")).toBeInTheDocument();
+  });
+
+  it("Deve exibir um erro se o usuário tentar logar sem preencher os campos", async () => {
+    fireEvent.submit(screen.getByRole("button", { name: /entrar/i }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Todos os campos obrigatórios devem ser preenchidos.")
+      ).toBeInTheDocument();
+    });
+  });
+});

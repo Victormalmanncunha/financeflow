@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
-export default function Register() {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -63,6 +63,7 @@ export default function Register() {
           <input
             type="email"
             name="email"
+            id="email"
             className="bg-gray-200 rounded-lg text-lg p-2 placeholder:text-gray-500"
             placeholder="Coloque seu email..."
             value={email}
@@ -75,6 +76,8 @@ export default function Register() {
           </label>
           <input
             type="password"
+            name="password"
+            id="password"
             className="bg-gray-200 rounded-lg text-lg p-2 placeholder:text-gray-500"
             value={password}
             onChange={handlePasswordChange}
