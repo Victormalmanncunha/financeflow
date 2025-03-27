@@ -16,7 +16,7 @@ export default function UserGreeting() {
   }, []);
 
   return (
-    <div className="h-10">
+    <div className="h-10 mt-6" data-testid="user-greeting">
       {userName && (
         <motion.h1
           className="text-3xl text-white font-bold"

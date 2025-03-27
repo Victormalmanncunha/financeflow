@@ -27,6 +27,11 @@ export default function Login() {
     e.preventDefault();
     toast.dismiss();
 
+    if (!email || !password) {
+      toast.warn("Todos os campos obrigatórios devem ser preenchidos.");
+      return;
+    }
+
     const res = await fetch("/api/users/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

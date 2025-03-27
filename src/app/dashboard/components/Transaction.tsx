@@ -24,9 +24,17 @@ export default function Transaction({
     >
       <span className="flex items-center gap-2">
         {type === "INCOME" ? (
-          <ArrowUp className="text-green-500" size={20} />
+          <ArrowUp
+            className="text-green-500"
+            size={20}
+            data-testid="arrow-up"
+          />
         ) : (
-          <ArrowDown className="text-red-500" size={20} />
+          <ArrowDown
+            className="text-red-500"
+            size={20}
+            data-testid="arrow-down"
+          />
         )}
         {category}
       </span>

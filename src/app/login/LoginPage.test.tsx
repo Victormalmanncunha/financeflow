@@ -2,14 +2,13 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Login from "./page";
 import "@testing-library/jest-dom";
 const mockPush = jest.fn();
-const mockGet = jest.fn();
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
     push: mockPush,
   }),
   useSearchParams: () => ({
-    get: mockGet,
+    get: (param: string) => (param === "success" ? "registered" : null),
   }),
 }));
 
@@ -19,7 +18,7 @@ describe("Testes da página de login", () => {
   });
 
   it("Deve exibir o titúlo 'Login'", () => {
-    expect(screen.getByText(/Login/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Login/i })).toBeInTheDocument();
   });
 
   it("Deve exibir os campos do formulário", () => {
@@ -35,5 +34,17 @@ describe("Testes da página de login", () => {
         screen.getByText("Todos os campos obrigatórios devem ser preenchidos.")
       ).toBeInTheDocument();
     });
+  });
+
+  it("Deve redirecionar para a página de cadastro ao clicar em ''", () => {
+    fireEvent.click(screen.getByText("Não tem uma conta?"));
+
+    expect(mockPush).toHaveBeenCalledWith("/register");
+  });
+
+  it("Deve exibir a mensagem de sucesso quando houver o parâmetro 'success=registered'", () => {
+    expect(
+      screen.getByText("Cadastro realizado com sucesso! Faça login.")
+    ).toBeInTheDocument();
   });
 });

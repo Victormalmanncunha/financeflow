@@ -34,6 +34,7 @@ export default function DashboardTransactionList() {
     <div
       className="bg-white p-6 rounded-xl shadow-lg w-full max-w-sm flex flex-col items-center cursor-pointer"
       onClick={handleNavigateToTransactions}
+      data-testid="dashboard-transaction-list"
     >
       <h2 className="text-xl font-semibold mb-4">Últimas Transações</h2>
 

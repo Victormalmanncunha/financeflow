@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
     if (!userEmail || !userPassword) {
       return NextResponse.json(
-        { error: "Todos os campos são obrigatórios" },
+        { error: "Todos os campos obrigatórios devem ser preenchidos." },
         { status: 400 }
       );
     }
