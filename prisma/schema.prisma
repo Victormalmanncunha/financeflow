@@ -30,13 +30,14 @@ enum TransactionType {
 }
 
 model Transaction {
-  id          Int             @id @default(autoincrement())
-  userId      Int
-  user        User            @relation(fields: [userId], references: [userId])
-  amount      Decimal
-  type        TransactionType
-  category    String
-  description String?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  id              Int             @id @default(autoincrement())
+  userId          Int
+  user            User            @relation(fields: [userId], references: [userId])
+  amount          Decimal
+  type            TransactionType
+  category        String
+  description     String?
+  transactionDate DateTime
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
 }
