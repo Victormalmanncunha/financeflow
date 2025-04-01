@@ -23,7 +23,7 @@ export default function Transactions() {
   const [amount, setAmount] = useState("0");
   const [category, setCategory] = useState("");
   const [type, setType] = useState("INCOME");
-  const [description, setDescription] = useState<string | null>(null);
+  const [description, setDescription] = useState("");
   const [transactionDate, setTransactionDate] = useState(() => {
     const localDate = new Date();
     localDate.setMinutes(
@@ -62,9 +62,9 @@ export default function Transactions() {
 
     const transaction = {
       amount: Number(amount),
-      category: category,
+      category: category.trim(),
       type: type,
-      description: description,
+      description: description.trim() ? description.trim() : null,
       transactionDate: transactionDate,
     };
 

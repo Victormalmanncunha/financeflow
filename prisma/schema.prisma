@@ -19,6 +19,7 @@ model User {
   userEmail    String        @unique @db.VarChar(255)
   userPhone    String        @unique @db.VarChar(20)
   userPassword String        @db.VarChar(255)
+  firstVisit   Boolean
   balance      Float         @default(0)
   createdAt    DateTime      @default(now())
   Transaction  Transaction[]
