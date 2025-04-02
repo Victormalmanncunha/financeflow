@@ -54,9 +54,12 @@ export async function POST(req: Request) {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
     });
-
     return NextResponse.json(
-      { message: "Login bem-sucedido!", token },
+      {
+        message: "Login bem-sucedido!",
+        token,
+        firstVisit: foundUser.firstVisit,
+      },
       { status: 200 }
     );
   } catch (error) {

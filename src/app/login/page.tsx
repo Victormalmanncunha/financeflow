@@ -43,7 +43,11 @@ export default function Login() {
 
     const data = await res.json();
     if (res.ok) {
-      router.push("/dashboard");
+      if (data.firstVisit) {
+        router.push("/dashboard?firstVisit=true");
+      } else {
+        router.push("/dashboard");
+      }
     } else {
       toast.error(data.error);
     }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import FirstVisit from "./FirstVisit";
 
 export default function CurrentBalance() {
   const [userBalance, setUserBalance] = useState(0);
@@ -55,6 +56,7 @@ export default function CurrentBalance() {
       <p className="text-2xl font-bold text-green-600">
         R${displayBalance.toFixed(2)}
       </p>
+      <FirstVisit updateBalanceAction={getBalance} />
     </div>
   );
 }
