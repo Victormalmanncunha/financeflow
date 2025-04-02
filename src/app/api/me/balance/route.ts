@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
 
     const updatedUser = await prisma.user.update({
       where: { userId: userId },
-      data: { balance: Number(amount) },
+      data: { balance: Number(amount), firstVisit: false },
     });
 
     return NextResponse.json(
@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: "Erro ao buscar usuários" },
+      { error: "Erro ao atualizar saldo" },
       { status: 500 }
     );
   }

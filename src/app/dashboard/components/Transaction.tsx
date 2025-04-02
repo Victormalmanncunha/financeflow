@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUp } from "lucide-react";
-
+import { useRouter } from "next/navigation";
 type TransactionProps = {
   id: number;
   userId: number;
@@ -17,10 +17,12 @@ export default function Transaction({
   type,
   category,
 }: TransactionProps) {
+  const router = useRouter();
   return (
     <li
       key={id}
-      className="flex justify-between items-center w-full p-2 rounded-lg shadow-sm bg-gray-100"
+      className="flex justify-between items-center w-full p-2 rounded-lg shadow-sm bg-gray-100 cursor-pointer"
+      onClick={() => router.push(`/dashboard/transactions/${id}`)}
     >
       <span className="flex items-center gap-2">
         {type === "INCOME" ? (

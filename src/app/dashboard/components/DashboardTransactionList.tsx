@@ -32,17 +32,27 @@ export default function DashboardTransactionList() {
 
   return (
     <div
-      className="bg-white p-6 rounded-xl shadow-lg w-full max-w-sm flex flex-col items-center cursor-pointer"
-      onClick={handleNavigateToTransactions}
+      className="bg-white p-6 h-fit rounded-xl shadow-lg w-full max-w-sm flex flex-col items-center"
       data-testid="dashboard-transaction-list"
     >
-      <h2 className="text-xl font-semibold mb-4">Últimas Transações</h2>
+      <h2
+        className="text-xl font-semibold mb-4 cursor-pointer"
+        onClick={handleNavigateToTransactions}
+      >
+        Últimas Transações
+      </h2>
 
       <ul className="w-full space-y-2">
         {transactions.map((transaction) => (
           <Transaction {...transaction} key={transaction.id} />
         ))}
       </ul>
+      <button
+        className="mt-5 bg-green-500 p-3 rounded-2xl cursor-pointer"
+        onClick={handleNavigateToTransactions}
+      >
+        Adicionar transação
+      </button>
     </div>
   );
 }

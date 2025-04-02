@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function FirstVisit({
   updateBalanceAction,
@@ -13,8 +14,7 @@ export default function FirstVisit({
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [amount, setAmount] = useState("0");
   const searchParams = useSearchParams();
-  const router = useRouter;
-  searchParams.delete;
+  const router = useRouter();
 
   useEffect(() => {
     if (searchParams.get("firstVisit") === "true") {
@@ -23,21 +23,21 @@ export default function FirstVisit({
   }, []);
 
   const handleConfirm = async () => {
-    if (!isNaN(Number(amount))) {
-      try {
-        const response = await fetch("/api/me/balance", {
-          body: JSON.stringify(amount),
-          method: "POST",
-        });
-        const data = await response.json();
-        if (response.ok && data) {
-          updateBalanceAction();
-          const newSearchParams = new URLSearchParams(searchParams.toString());
-          newSearchParams.delete("firstVisit");
-          router;
-          setModalIsOpen(false);
-        }
-      } catch (error) {}
+    if (!isNaN(Number(amount)) && amount.trim() !== "") {
+      const response = await fetch("/api/me/balance", {
+        body: JSON.stringify(amount),
+        method: "POST",
+      });
+      const data = await response.json();
+      if (response.ok && data) {
+        updateBalanceAction();
+        router.push(`/dashboard`);
+        setModalIsOpen(false);
+      } else {
+        toast.error("Erro inesperado ao atualizar saldo.");
+      }
+    } else {
+      toast.error("Por favor, insira um valor valido.");
     }
   };
 
@@ -80,6 +80,7 @@ export default function FirstVisit({
           </motion.div>
         </motion.div>
       ) : null}
+      <ToastContainer closeOnClick limit={1} />
     </>
   );
 }

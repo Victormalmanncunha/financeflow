@@ -20,6 +20,8 @@ export default function Transactions() {
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
   const router = useRouter();
 
+  const [balance, setBalance] = useState(0);
+  const [balanceAfter, setBalanceAfter] = useState(0);
   const [amount, setAmount] = useState("0");
   const [category, setCategory] = useState("");
   const [type, setType] = useState("INCOME");
@@ -37,8 +39,21 @@ export default function Transactions() {
     setTransactions(data.transactions);
   }
 
+  async function getBalance() {
+    try {
+      const response = await fetch("http://localhost:3000/api/me/balance", {
+        method: "GET",
+      });
+      const data = await response.json();
+      setBalance(data.userBalance);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getTransactions();
+    getBalance();
   }, []);
 
   async function createTransaction(e: React.FormEvent<HTMLFormElement>) {
@@ -124,7 +139,16 @@ export default function Transactions() {
                   type="text"
                   placeholder="Valor"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  onChange={(e) => setAmount(e.target.value)}
+                  onChange={(e) => {
+                    setAmount(e.target.value);
+                    if (!isNaN(Number(e.target.value))) {
+                      setBalanceAfter(
+                        type === "INCOME"
+                          ? balance + Number(e.target.value)
+                          : balance - Number(e.target.value)
+                      );
+                    }
+                  }}
                   value={amount}
                   min={0.1}
                 />
@@ -162,6 +186,17 @@ export default function Transactions() {
                 >
                   Adicionar
                 </button>
+
+                <p className="w-full text-center font-bold">
+                  Saldo após transação:{" "}
+                  <span
+                    className={`${
+                      balanceAfter >= 0 ? "text-green-600" : "text-red-600"
+                    }`}
+                  >
+                    R${balanceAfter.toFixed(2)}
+                  </span>
+                </p>
               </form>
             </div>
           </div>

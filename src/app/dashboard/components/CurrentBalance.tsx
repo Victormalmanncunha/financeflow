@@ -49,10 +49,10 @@ export default function CurrentBalance() {
 
   return (
     <div
-      className="bg-white p-6 rounded-xl shadow-lg w-full max-w-sm flex flex-col items-center"
+      className="bg-white p-6 rounded-xl shadow-lg w-full max-w-sm flex flex-col items-center h-fit"
       data-testid="current-balance"
     >
-      <h2 className="text-xl font-semibold">Saldo atual</h2>
+      <h2 className="text-xl font-semibold">Saldo total</h2>
       <p className="text-2xl font-bold text-green-600">
         R${displayBalance.toFixed(2)}
       </p>

@@ -7,8 +7,10 @@ export default async function Dashboard() {
     <div className="h-screen w-full flex bg-indigo-700">
       <main className="flex-1 flex flex-col items-center gap-6">
         <UserGreeting />
-        <CurrentBalance />
-        <DashboardTransactionList />
+        <div className="w-full h-full flex justify-center gap-5">
+          <CurrentBalance />
+          <DashboardTransactionList />
+        </div>
       </main>
     </div>
   );
