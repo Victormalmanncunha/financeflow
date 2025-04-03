@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Transaction from "./components/Transaction";
 import { toast, ToastContainer } from "react-toastify";
+import DashboardMenu from "../components/DashboardMenu";
 
 type TransactionType = {
   id: number;
@@ -23,7 +24,7 @@ export default function Transactions() {
   const [balanceAfter, setBalanceAfter] = useState(0);
   const [amount, setAmount] = useState("0");
   const [category, setCategory] = useState("");
-  const [type, setType] = useState("INCOME");
+  const [type, setType] = useState<"INCOME" | "EXPENSE">("INCOME");
   const [description, setDescription] = useState("");
   const [transactionDate, setTransactionDate] = useState(() => {
     const localDate = new Date();
@@ -54,6 +55,11 @@ export default function Transactions() {
     getTransactions();
     getBalance();
   }, []);
+
+  useEffect(() => {
+    updateBalanceAfter(Number(amount), type);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [balance]);
 
   async function createTransaction(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -110,14 +116,26 @@ export default function Transactions() {
     }
   }
 
+  const updateBalanceAfter = (amount: number, type: "INCOME" | "EXPENSE") => {
+    if (!isNaN(Number(amount))) {
+      setBalanceAfter(
+        type === "INCOME" ? balance + Number(amount) : balance - Number(amount)
+      );
+    }
+  };
+
   return (
     <div className="h-screen w-full flex bg-indigo-700">
+      <DashboardMenu />
       <main className="flex-1 flex flex-col items-center gap-6">
         <h1 className="text-3xl text-white font-bold mt-6 mb-6">Transações</h1>
         <div className="flex w-full">
           <div className="w-1/2 flex flex-col items-center">
             <h2 className="text-white text-2xl font-semibold">
               Todas as transações
+            </h2>
+            <h2 className="text-white text-2xl font-semibold">
+              Saldo atual: R${balance.toFixed(2)}
             </h2>
             <ul className="w-3/4 h-[70vh] flex flex-col gap-3 mt-5 overflow-y-auto">
               {transactions.map((transaction) => {
@@ -135,21 +153,14 @@ export default function Transactions() {
                 onSubmit={createTransaction}
               >
                 <input
-                  type="text"
+                  type="number"
                   placeholder="Valor"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   onChange={(e) => {
                     setAmount(e.target.value);
-                    if (!isNaN(Number(e.target.value))) {
-                      setBalanceAfter(
-                        type === "INCOME"
-                          ? balance + Number(e.target.value)
-                          : balance - Number(e.target.value)
-                      );
-                    }
+                    updateBalanceAfter(Number(e.target.value), type);
                   }}
                   value={amount}
-                  min={0.1}
                 />
                 <input
                   type="text"
@@ -160,7 +171,11 @@ export default function Transactions() {
                 />
                 <select
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  onChange={(e) => setType(e.target.value)}
+                  onChange={(e) => {
+                    const selectedType = e.target.value as "INCOME" | "EXPENSE";
+                    setType(selectedType);
+                    updateBalanceAfter(Number(amount), selectedType);
+                  }}
                   value={type}
                 >
                   <option value="INCOME">Receita</option>

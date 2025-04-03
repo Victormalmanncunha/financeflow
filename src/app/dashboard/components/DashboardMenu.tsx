@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOut, Menu } from "lucide-react";
+import { Banknote, LayoutDashboard, LogOut, Menu } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -34,6 +34,20 @@ export default function DashboardMenu() {
           className="absolute left-1 top-10 mt-2 w-40 bg-white rounded-lg shadow-lg py-2 border border-gray-200 z-50"
         >
           <ul className="divide-y divide-gray-200">
+            <li
+              className="flex items-center gap-2 px-4 py-3 cursor-pointer hover:bg-gray-100 transition"
+              onClick={() => router.push("/dashboard")}
+            >
+              <LayoutDashboard className="w-5 h-5 text-gray-700" />
+              <p className="text-gray-800 font-medium">Dashboard</p>
+            </li>
+            <li
+              className="flex items-center gap-2 px-4 py-3 cursor-pointer hover:bg-gray-100 transition"
+              onClick={() => router.push("/dashboard/transactions")}
+            >
+              <Banknote className="w-5 h-5 text-gray-700" />
+              <p className="text-gray-800 font-medium">Transações</p>
+            </li>
             <li
               className="flex items-center gap-2 px-4 py-3 cursor-pointer hover:bg-gray-100 transition"
               onClick={handleLogout}

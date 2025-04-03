@@ -1,18 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import { InputMask } from "@react-input/mask";
 
 export default function Register() {
   const [name, setName] = useState("");
+  const nameInputRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
   useEffect(() => {
+    nameInputRef.current?.focus();
     const urlParams = new URLSearchParams(window.location.search);
     const email = urlParams.get("email");
     if (email) {
@@ -98,6 +100,7 @@ export default function Register() {
             placeholder="Coloque seu nome..."
             value={name}
             onChange={handleNameChange}
+            ref={nameInputRef}
           />
         </div>
         <div className="flex flex-col w-3/4">

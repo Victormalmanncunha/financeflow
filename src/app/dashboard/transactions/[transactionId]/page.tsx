@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import ExclusionModal from "./components/ExclusionModal";
 
 type TransactionType = {
   id: number;
@@ -17,6 +18,7 @@ type TransactionType = {
 
 export default function Transactions() {
   const [transaction, setTransaction] = useState<TransactionType | null>(null);
+  const [exclusionModalIsOpen, setExclusionModalIsOpen] = useState(false);
   const router = useRouter();
   const params = useParams();
   async function getTransaction() {
@@ -30,6 +32,7 @@ export default function Transactions() {
       router.back();
     }
   }
+
   useEffect(() => {
     getTransaction();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,14 +86,30 @@ export default function Transactions() {
             {new Date(`${transaction.transactionDate}`).toLocaleDateString()}
           </p>
         </div>
-
-        <button
-          onClick={() => router.back()}
-          className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg mt-6 shadow-md transition-all duration-200"
-        >
-          Voltar
-        </button>
+        <div className="flex gap-10">
+          <button
+            onClick={() => router.back()}
+            className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg mt-6 shadow-md transition-all duration-200"
+          >
+            Voltar
+          </button>
+          <button
+            onClick={() => setExclusionModalIsOpen(true)}
+            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg mt-6 shadow-md transition-all duration-200"
+          >
+            Excluir
+          </button>
+        </div>
       </div>
+      <ExclusionModal
+        exclusionModalIsOpen={exclusionModalIsOpen}
+        setExclusionModalIsOpen={() =>
+          setExclusionModalIsOpen(!exclusionModalIsOpen)
+        }
+        transactionAmount={transaction.amount}
+        transactionType={transaction.type}
+        transactionId={transaction.id}
+      />
     </div>
   );
 }
