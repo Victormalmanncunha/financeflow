@@ -20,13 +20,13 @@ export default function FirstVisit({
     if (searchParams.get("firstVisit") === "true") {
       setModalIsOpen(true);
     }
-  }, []);
+  }, [searchParams]);
 
   const handleConfirm = async () => {
     if (!isNaN(Number(amount)) && amount.trim() !== "") {
       const response = await fetch("/api/me/balance", {
         body: JSON.stringify(amount),
-        method: "POST",
+        method: "PATCH",
       });
       const data = await response.json();
       if (response.ok && data) {

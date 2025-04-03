@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function POST(req: NextRequest) {
+export async function PATCH(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
   const amount = await req.json();
   if (isNaN(Number(amount))) {
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
     const decoded = jwt.verify(token, SECRET_KEY) as JwtPayload;
     const userId = decoded.userId;
 
-    const updatedUser = await prisma.user.update({
+    await prisma.user.update({
       where: { userId: userId },
       data: { balance: Number(amount), firstVisit: false },
     });

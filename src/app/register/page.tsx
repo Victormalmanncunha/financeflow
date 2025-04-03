@@ -75,7 +75,7 @@ export default function Register() {
     if (res.ok) {
       router.push("/login?success=registered");
     } else {
-      alert(data.error);
+      toast.error(data.error);
     }
   };
 

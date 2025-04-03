@@ -53,7 +53,11 @@ export default function CurrentBalance() {
       data-testid="current-balance"
     >
       <h2 className="text-xl font-semibold">Saldo total</h2>
-      <p className="text-2xl font-bold text-green-600">
+      <p
+        className={`text-2xl font-bold ${
+          displayBalance >= 0 ? "text-green-600" : "text-red-600"
+        }`}
+      >
         R${displayBalance.toFixed(2)}
       </p>
       <FirstVisit updateBalanceAction={getBalance} />

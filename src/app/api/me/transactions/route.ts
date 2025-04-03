@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     const decoded = jwt.verify(token, SECRET_KEY) as JwtPayload;
     const id = decoded.userId;
 
-    const response = await prisma.transaction.create({
+    await prisma.transaction.create({
       data: {
         userId: id,
         amount: amount,
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const updateUser = await prisma.user.update({
+    await prisma.user.update({
       where: { userId: id },
       data: {
         balance:

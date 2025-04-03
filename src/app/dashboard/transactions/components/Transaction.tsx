@@ -9,6 +9,7 @@ type TransactionProps = {
   description?: string;
   createdAt: string;
   updatedAt: string;
+  transactionDate: Date;
 };
 
 export default function Transaction({
@@ -16,6 +17,7 @@ export default function Transaction({
   amount,
   type,
   category,
+  transactionDate,
 }: TransactionProps) {
   const router = useRouter();
   return (
@@ -37,7 +39,12 @@ export default function Transaction({
             data-testid="arrow-down"
           />
         )}
-        {category}
+        <div>
+          <p className="font-bold">{category}</p>
+          <p className="text-sm font-semibold">
+            {new Date(transactionDate).toLocaleDateString()}
+          </p>
+        </div>
       </span>
       <span
         className={`font-semibold ${

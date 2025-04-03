@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Transaction from "./components/Transaction";
 import { toast, ToastContainer } from "react-toastify";
@@ -14,11 +13,11 @@ type TransactionType = {
   description?: string;
   createdAt: string;
   updatedAt: string;
+  transactionDate: Date;
 };
 
 export default function Transactions() {
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
-  const router = useRouter();
 
   const [balance, setBalance] = useState(0);
   const [balanceAfter, setBalanceAfter] = useState(0);
@@ -95,7 +94,7 @@ export default function Transactions() {
     if (response.ok) {
       toast.success("Transação criada com sucesso!");
       getTransactions();
-      setAmount(0);
+      setAmount("0");
       setCategory("");
       setDescription("");
       setTransactionDate(() => {
@@ -118,16 +117,16 @@ export default function Transactions() {
         <div className="flex w-full">
           <div className="w-1/2 flex flex-col items-center">
             <h2 className="text-white text-2xl font-semibold">
-              Ultimas transações
+              Todas as transações
             </h2>
-            <ul className="w-3/4 max-h-[80vh] flex flex-col gap-3 mt-5 overflow-y-auto">
+            <ul className="w-3/4 h-[70vh] flex flex-col gap-3 mt-5 overflow-y-auto">
               {transactions.map((transaction) => {
                 return <Transaction {...transaction} key={transaction.id} />;
               })}
             </ul>
           </div>
           <div className="w-1/2 flex justify-center">
-            <div className="w-4/5 flex flex-col items-center bg-white p-6 rounded-lg shadow-lg">
+            <div className="w-4/5 flex flex-col items-center bg-white p-6 rounded-lg shadow-lg h-fit">
               <h2 className="text-indigo-700 text-2xl font-semibold mb-4">
                 Adicionar Transação
               </h2>

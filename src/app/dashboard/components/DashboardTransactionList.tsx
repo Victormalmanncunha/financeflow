@@ -48,7 +48,7 @@ export default function DashboardTransactionList() {
         ))}
       </ul>
       <button
-        className="mt-5 bg-green-500 p-3 rounded-2xl cursor-pointer"
+        className="mt-5 bg-green-500 duration-300 hover:bg-green-600 p-3 rounded-2xl cursor-pointer"
         onClick={handleNavigateToTransactions}
       >
         Adicionar transação
