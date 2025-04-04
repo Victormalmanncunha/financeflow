@@ -124,6 +124,25 @@ export default function Transactions() {
     }
   };
 
+  function groupTransactionsByDate(transactions: TransactionType[]) {
+    return transactions.reduce((acc, transaction) => {
+      const date = new Date(transaction.transactionDate)
+        .toISOString()
+        .split("T")[0];
+      if (!acc[date]) acc[date] = { transactions: [], total: 0 };
+
+      acc[date].transactions.push(transaction);
+      acc[date].total +=
+        transaction.type === "INCOME"
+          ? Number(transaction.amount)
+          : Number(-transaction.amount);
+
+      return acc;
+    }, {} as Record<string, { transactions: TransactionType[]; total: number }>);
+  }
+
+  const groupedTransactions = groupTransactionsByDate(transactions);
+
   return (
     <div className="h-screen w-full flex bg-indigo-700">
       <DashboardMenu />
@@ -138,9 +157,18 @@ export default function Transactions() {
               Saldo atual: R${balance.toFixed(2)}
             </h2>
             <ul className="w-3/4 h-[70vh] flex flex-col gap-3 mt-5 overflow-y-auto">
-              {transactions.map((transaction) => {
-                return <Transaction {...transaction} key={transaction.id} />;
-              })}
+              {Object.entries(groupedTransactions).map(([date, data]) => (
+                <div key={date} className="p-4 rounded-lg flex flex-col gap-2">
+                  <h2 className="text-lg font-bold text-white">
+                    {new Date(date + "T00:00:00").toLocaleDateString()} - Saldo:
+                    R$
+                    {Number(data.total).toFixed(2)}
+                  </h2>
+                  {data.transactions.map((transaction) => (
+                    <Transaction {...transaction} key={transaction.id} />
+                  ))}
+                </div>
+              ))}
             </ul>
           </div>
           <div className="w-1/2 flex justify-center">
